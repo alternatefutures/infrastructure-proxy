@@ -1,23 +1,19 @@
-# Pingap SSL Proxy - Built on Cloudflare's Pingora
+# Caddy SSL Proxy with Cloudflare DNS plugin
 #
-# High-performance reverse proxy with native DNS-01 Let's Encrypt
-# via Cloudflare API. Uses ~70% less resources than nginx/caddy.
+# Uses DNS-01 Let's Encrypt via Cloudflare API for automatic SSL.
+# This allows certificate provisioning for custom domains on Akash Network.
 
-FROM vicanso/pingap:latest
+FROM caddy:2-builder AS builder
 
-# Copy configuration
-COPY pingap.toml /etc/pingap/pingap.toml
+RUN xcaddy build \
+    --with github.com/caddy-dns/cloudflare
 
-# Create data directories for certificates
-RUN mkdir -p /data/pingap /var/log/pingap
+FROM caddy:2
 
-# Expose ports
-EXPOSE 443 8080
+COPY --from=builder /usr/bin/caddy /usr/bin/caddy
+COPY Caddyfile /etc/caddy/Caddyfile
 
-# Health check
+EXPOSE 443 8080 2019
+
 HEALTHCHECK --interval=30s --timeout=3s --start-period=30s --retries=3 \
     CMD wget --no-verbose --tries=1 --spider http://localhost:8080/health || exit 1
-
-# Run Pingap
-CMD ["pingap", "-c", "/etc/pingap/pingap.toml"]
-
