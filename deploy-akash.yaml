@@ -1,26 +1,26 @@
 ---
-# Akash SDL - SSL Proxy
+# Akash SDL - SSL Proxy (Pingap)
 #
-# Caddy-based SSL termination proxy with automatic Let's Encrypt certificates.
+# Pingap-based SSL termination proxy with automatic Let's Encrypt certificates.
 # Uses DNS-01 challenges via Cloudflare API.
+# Built on Cloudflare's Pingora framework for high performance.
 #
 # This proxy handles SSL for all AlternateFutures services.
 # Backend services should be deployed separately and referenced by their
-# Akash ingress URLs.
+# Akash ingress URLs in pingap.toml.
 #
-# Required secrets:
-#   - CF_API_TOKEN: Cloudflare API token with Zone:DNS:Edit permission
-#   - GHCR_PAT: GitHub Container Registry token
+# Required env:
+#   - PINGAP_DNS_SERVICE_URL: Cloudflare API URL with token
+#
+# Current Deployment:
+#   DSEQ: 24576255
+#   Provider: Europlots (akash162gym3szcy9d993gs3tyu0mg2ewcjacen9nwsu)
 
 version: "2.0"
 
 services:
   ssl-proxy:
-    image: ghcr.io/wonderwomancode/infrastructure-proxy:latest
-    params:
-      storage:
-        certs:
-          mount: /data
+    image: ghcr.io/wonderwomancode/infrastructure-proxy-pingap:main
     expose:
       # HTTPS traffic
       - port: 443
@@ -31,46 +31,26 @@ services:
           - auth.alternatefutures.ai
           - api.alternatefutures.ai
           - app.alternatefutures.ai
-          - docs.alternatefutures.ai
-      # HTTP (redirects to HTTPS)
-      - port: 80
-        as: 80
-        to:
-          - global: true
-        accept:
-          - auth.alternatefutures.ai
-          - api.alternatefutures.ai
-          - app.alternatefutures.ai
-          - docs.alternatefutures.ai
       # Health check endpoint
       - port: 8080
         as: 8080
         to:
           - global: true
     env:
-      # Cloudflare API token for DNS-01 Let's Encrypt challenges
-      - CF_API_TOKEN=${CF_API_TOKEN}
-      # Backend service URLs (Akash ingress endpoints)
-      # Update these when backend services are redeployed
-      - AUTH_BACKEND=${AUTH_BACKEND:-ubsm31q4ol97b1pi5l06iognug.ingress.europlots.com}
-      - API_BACKEND=${API_BACKEND:-cjrdmusuql9e34bevi8mjgj8pg.ingress.europlots.com}
-      - APP_BACKEND=${APP_BACKEND:-app.ingress.europlots.com}
+      # Cloudflare API for DNS-01 Let's Encrypt challenges
+      # Format: https://api.cloudflare.com?token=<CF_API_TOKEN>
+      - PINGAP_DNS_SERVICE_URL=${PINGAP_DNS_SERVICE_URL}
 
 profiles:
   compute:
     ssl-proxy:
       resources:
         cpu:
-          units: 0.5
+          units: 0.25
         memory:
-          size: 512Mi
+          size: 256Mi
         storage:
           - size: 256Mi
-          - name: certs
-            size: 100Mi
-            attributes:
-              persistent: true
-              class: beta3
 
   placement:
     akash:
@@ -82,7 +62,7 @@ profiles:
       pricing:
         ssl-proxy:
           denom: uakt
-          amount: 50
+          amount: 1000
 
 deployment:
   ssl-proxy:
