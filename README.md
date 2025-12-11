@@ -8,7 +8,7 @@ High-performance SSL termination proxy for AlternateFutures services running on 
 |-------|-------|
 | **DSEQ** | 24576255 |
 | **Provider** | Europlots (`akash162gym3szcy9d993gs3tyu0mg2ewcjacen9nwsu`) |
-| **Image** | `ghcr.io/wonderwomancode/infrastructure-proxy-pingap:main` |
+| **Image** | `ghcr.io/alternatefutures/infrastructure-proxy-pingap:main` |
 | **Status** | Running, awaiting Cloudflare zone activation |
 
 ## Overview
@@ -111,7 +111,7 @@ curl http://localhost:8080/health
 ### Via GitHub Actions
 
 1. Push to `main` branch triggers build
-2. Image pushed to `ghcr.io/wonderwomancode/infrastructure-proxy-pingap`
+2. Image pushed to `ghcr.io/alternatefutures/infrastructure-proxy-pingap`
 3. Manual deployment via Akash Console or MCP
 
 ### Manual Akash Deployment
