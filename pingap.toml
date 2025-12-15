@@ -13,9 +13,10 @@ pid_file = "/tmp/pingap.pid"
 
 # Static Certificate from Cloudflare Origin CA
 # Files are written by entrypoint.sh from environment variables
+# Use 'cert' and 'key' for file paths (not 'tls_cert' and 'tls_key')
 [certificates.alternatefutures]
-tls_cert = "/etc/pingap/certs/origin.crt"
-tls_key = "/etc/pingap/certs/origin.key"
+cert = "/etc/pingap/certs/origin.crt"
+key = "/etc/pingap/certs/origin.key"
 
 # Auth Service Backend
 [upstreams.auth]
@@ -65,7 +66,7 @@ plugins = ["pingap:responseHeaders?X-Health-Check:ok", "pingap:mock?status=200&t
 [servers.https]
 addr = "0.0.0.0:443"
 locations = ["auth", "api", "app"]
-tls_cert = "alternatefutures"
+tls = "alternatefutures"
 tls_cipher_list = "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384"
 tls_min_version = "1.2"
 enabled_h2 = true
