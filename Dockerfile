@@ -9,14 +9,15 @@
 FROM vicanso/pingap:latest
 
 # Install etcdctl for initialization and debugging
-# Also install curl for health checks
-RUN apk add --no-cache curl && \
+# Pingap base image is Debian-based, install curl and wget
+RUN apt-get update && apt-get install -y --no-install-recommends curl wget ca-certificates && \
     ETCD_VER=v3.5.12 && \
     ARCH=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/') && \
     curl -L https://github.com/etcd-io/etcd/releases/download/${ETCD_VER}/etcd-${ETCD_VER}-linux-${ARCH}.tar.gz -o /tmp/etcd.tar.gz && \
     tar xzf /tmp/etcd.tar.gz -C /tmp && \
     mv /tmp/etcd-${ETCD_VER}-linux-${ARCH}/etcdctl /usr/local/bin/ && \
-    rm -rf /tmp/etcd*
+    rm -rf /tmp/etcd* && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy configuration files
 COPY pingap.toml /etc/pingap/pingap-bootstrap.toml
