@@ -1,8 +1,8 @@
 ---
 # Akash SDL - SSL Proxy (Pingap)
 #
-# Pingap-based SSL termination proxy with automatic Let's Encrypt certificates.
-# Uses DNS-01 challenges via Cloudflare API.
+# Pingap-based SSL termination proxy with Cloudflare Origin Certificate.
+# Uses static TLS cert (no ACME) - more reliable than DNS-01 challenges.
 # Built on Cloudflare's Pingora framework for high performance.
 #
 # This proxy handles SSL for all AlternateFutures services.
@@ -10,11 +10,10 @@
 # Akash ingress URLs in pingap.toml.
 #
 # Required env:
-#   - PINGAP_DNS_SERVICE_URL: Cloudflare API URL with token
+#   - PINGAP_TLS_CERT: Cloudflare Origin Certificate (PEM)
+#   - PINGAP_TLS_KEY: Private key (PEM)
 #
-# Current Deployment:
-#   DSEQ: 24576255
-#   Provider: Europlots (akash162gym3szcy9d993gs3tyu0mg2ewcjacen9nwsu)
+# SSL Mode: Cloudflare Full (Strict) - end-to-end encryption
 
 version: "2.0"
 
@@ -37,20 +36,21 @@ services:
         to:
           - global: true
     env:
-      # Cloudflare API for DNS-01 Let's Encrypt challenges
-      # Format: https://api.cloudflare.com?token=<CF_API_TOKEN>
-      - PINGAP_DNS_SERVICE_URL=${PINGAP_DNS_SERVICE_URL}
+      # Cloudflare Origin Certificate and Private Key
+      # These are written to files by entrypoint.sh
+      - PINGAP_TLS_CERT=${PINGAP_TLS_CERT}
+      - PINGAP_TLS_KEY=${PINGAP_TLS_KEY}
 
 profiles:
   compute:
     ssl-proxy:
       resources:
         cpu:
-          units: 0.25
+          units: 0.5
         memory:
-          size: 256Mi
+          size: 512Mi
         storage:
-          - size: 256Mi
+          - size: 512Mi
 
   placement:
     akash:
