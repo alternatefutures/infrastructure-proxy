@@ -1,0 +1,79 @@
+---
+version: "2.0"
+
+# Traefik Reverse Proxy for AlternateFutures
+# Handles TLS termination and Host-based routing for custom domains
+#
+# DEPLOYMENT NOTES:
+# - Deploy on D3Akash or similar (NOT Europlots - hairpin NAT issue)
+# - After deployment, update Cloudflare DNS to point to this proxy
+# - Use Cloudflare Workers to rewrite Host header for custom domain routing
+
+services:
+  traefik:
+    image: ghcr.io/wonderwomancode/infrastructure-proxy-traefik:main
+    expose:
+      # HTTPS - receives traffic from Cloudflare proxy
+      - port: 443
+        as: 443
+        to:
+          - global: true
+        accept:
+          # AlternateFutures domains
+          - "*.alternatefutures.ai"
+          - "alternatefutures.ai"
+          - "secrets.alternatefutures.ai"
+          - "auth.alternatefutures.ai"
+          - "api.alternatefutures.ai"
+          - "app.alternatefutures.ai"
+          - "docs.alternatefutures.ai"
+          # Customer TLDs (future)
+          - "*.com"
+          - "*.io"
+          - "*.xyz"
+          - "*.dev"
+      # Health check port for Akash
+      - port: 8080
+        as: 8080
+        to:
+          - global: true
+    env:
+      # TLS certificates - use pipe (|) as line separator
+      # Generate from Cloudflare Origin Certificate (15-year validity)
+      - TLS_CERT=<REPLACE_WITH_ORIGIN_CERT>
+      - TLS_KEY=<REPLACE_WITH_ORIGIN_KEY>
+    params:
+      storage:
+        data:
+          mount: /data
+          readOnly: false
+
+profiles:
+  compute:
+    traefik:
+      resources:
+        cpu:
+          units: 1
+        memory:
+          size: 512Mi
+        storage:
+          - size: 256Mi
+
+  placement:
+    dcloud:
+      attributes:
+        host: akash
+      signedBy:
+        anyOf:
+          - akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63
+          - akash18qa2a2ltfyvkyj0ggj3hkvuj6twzyumuaru9s4
+      pricing:
+        traefik:
+          denom: uakt
+          amount: 10000
+
+deployment:
+  traefik:
+    dcloud:
+      profile: traefik
+      count: 1

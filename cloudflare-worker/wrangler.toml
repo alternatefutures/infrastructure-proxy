@@ -1,0 +1,19 @@
+# Cloudflare Worker configuration
+# Deploy with: npx wrangler deploy
+
+name = "akash-proxy-router"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# Routes - add routes for each custom domain
+# Format: routes = [{ pattern = "example.com/*", zone_name = "example.com" }]
+routes = [
+  { pattern = "secrets.alternatefutures.ai/*", zone_name = "alternatefutures.ai" },
+  # Add more routes as needed:
+  # { pattern = "auth.alternatefutures.ai/*", zone_name = "alternatefutures.ai" },
+  # { pattern = "api.alternatefutures.ai/*", zone_name = "alternatefutures.ai" },
+]
+
+# Environment variables (optional, can be configured in dashboard)
+[vars]
+PROXY_INGRESS_HOST = "7otno9m6hpdhr8sdpggr484mq8.ingress.d3akash.cloud"

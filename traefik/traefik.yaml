@@ -1,0 +1,37 @@
+# Traefik Static Configuration
+# This configuration runs Traefik as a reverse proxy on Akash
+# Using static file configuration (no dynamic providers needed)
+
+api:
+  dashboard: false  # Disable dashboard for production
+
+entryPoints:
+  # HTTPS entry point - receives traffic from Cloudflare proxy
+  websecure:
+    address: ":443"
+    http:
+      tls: {}
+
+  # Health check entry point (for Akash)
+  health:
+    address: ":8080"
+
+# Enable file provider for static routing rules
+providers:
+  file:
+    filename: /etc/traefik/routes.yaml
+    watch: false
+
+# TLS configuration - use Origin Certificate from environment
+tls:
+  certificates:
+    - certFile: /etc/traefik/certs/origin.crt
+      keyFile: /etc/traefik/certs/origin.key
+
+# Logging
+log:
+  level: INFO
+
+# Access logs
+accessLog:
+  format: json

@@ -1,0 +1,86 @@
+# Traefik Dynamic Configuration - Routing Rules
+# Routes custom domains to backend services
+
+http:
+  routers:
+    # Secrets (Infisical) service
+    secrets:
+      rule: "Host(`secrets.alternatefutures.ai`)"
+      service: secrets
+      entryPoints:
+        - websecure
+      tls: {}
+
+    # Auth service
+    auth:
+      rule: "Host(`auth.alternatefutures.ai`)"
+      service: auth
+      entryPoints:
+        - websecure
+      tls: {}
+
+    # API service
+    api:
+      rule: "Host(`api.alternatefutures.ai`)"
+      service: api
+      entryPoints:
+        - websecure
+      tls: {}
+
+    # App/Website
+    app:
+      rule: "Host(`app.alternatefutures.ai`) || Host(`alternatefutures.ai`) || Host(`www.alternatefutures.ai`)"
+      service: ipfs-website
+      entryPoints:
+        - websecure
+      tls: {}
+
+    # Docs
+    docs:
+      rule: "Host(`docs.alternatefutures.ai`)"
+      service: ipfs-docs
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    # Secrets backend (Infisical on Europlots)
+    secrets:
+      loadBalancer:
+        servers:
+          - url: "https://v8c1fui9p1dah5m86ctithi5ok.ingress.europlots.com"
+        passHostHeader: false
+        serversTransport: skipVerify
+
+    # Auth backend (Europlots)
+    auth:
+      loadBalancer:
+        servers:
+          - url: "https://ubsm31q4ol97b1pi5l06iognug.ingress.europlots.com"
+        passHostHeader: false
+        serversTransport: skipVerify
+
+    # API backend (gpu.subangle.com)
+    api:
+      loadBalancer:
+        servers:
+          - url: "https://rvknp4kjg598n8uslgnovkrdpk.ingress.gpu.subangle.com"
+        passHostHeader: false
+        serversTransport: skipVerify
+
+    # IPFS Gateway for static sites
+    ipfs-website:
+      loadBalancer:
+        servers:
+          - url: "https://gateway.pinata.cloud/ipfs/QmU4VRKexpuA6RvYfXY9nUsgiHRMLDhxvZFi7ssGHn3aHj"
+        passHostHeader: false
+
+    ipfs-docs:
+      loadBalancer:
+        servers:
+          - url: "https://gateway.pinata.cloud/ipfs/QmeQe1QuyiAiyCrJLASixPtH2VW6xQZxcpqCHJsUTtxfUR"
+        passHostHeader: false
+
+  serversTransports:
+    skipVerify:
+      insecureSkipVerify: true
