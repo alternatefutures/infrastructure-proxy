@@ -84,49 +84,7 @@ jobs:
         run: |
           IMAGE_TAG="${{ steps.meta.outputs.tags }}"
           export IMAGE=$(echo "$IMAGE_TAG" | head -1)
-
-          # Use Python to handle special characters in certificates safely
-          python3 << 'PYEOF'
-import os
-import re
-
-# Get values from environment
-cert = os.environ.get('CLOUDFLARE_ORIGIN_CERT', '')
-key = os.environ.get('CLOUDFLARE_ORIGIN_KEY', '')
-image = os.environ.get('IMAGE', '')
-
-if not cert:
-    print('WARNING: CLOUDFLARE_ORIGIN_CERT secret is empty!')
-if not key:
-    print('WARNING: CLOUDFLARE_ORIGIN_KEY secret is empty!')
-
-# Read the SDL template
-with open('deploy-akash-ip-lease.yaml', 'r') as f:
-    content = f.read()
-
-# Update the image tag
-content = re.sub(
-    r'image: ghcr\.io/wonderwomancode/infrastructure-proxy-pingap:\S+',
-    f'image: {image}',
-    content
-)
-
-# Replace certificate placeholder with actual cert
-# Certs are pipe-delimited in secrets, convert to \n escape sequences for entrypoint.sh
-cert_escaped = cert.replace('|', '\\n')
-key_escaped = key.replace('|', '\\n')
-
-content = content.replace('<REPLACE_WITH_ORIGIN_CERT>', cert_escaped)
-content = content.replace('<REPLACE_WITH_ORIGIN_KEY>', key_escaped)
-
-# Write the modified SDL
-with open('deploy-with-tls.yaml', 'w') as f:
-    f.write(content)
-
-print(f'Generated SDL with image: {image}')
-print(f'Certificate length: {len(cert)} chars')
-print(f'Key length: {len(key)} chars')
-PYEOF
+          python3 scripts/generate_sdl.py
 
       - name: Upload SDL Artifact
         uses: actions/upload-artifact@v4
