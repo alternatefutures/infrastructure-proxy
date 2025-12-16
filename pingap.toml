@@ -23,23 +23,30 @@ key = "/etc/pingap/certs/origin.key"
 addrs = ["ubsm31q4ol97b1pi5l06iognug.ingress.europlots.com:443"]
 sni = "ubsm31q4ol97b1pi5l06iognug.ingress.europlots.com"
 connection_timeout = "10s"
+health_check_connection_timeout = "10s"
+verify_cert = false
 
 # API Service Backend
 [upstreams.api]
 addrs = ["rvknp4kjg598n8uslgnovkrdpk.ingress.gpu.subangle.com:443"]
 sni = "rvknp4kjg598n8uslgnovkrdpk.ingress.gpu.subangle.com"
 connection_timeout = "10s"
+health_check_connection_timeout = "10s"
+verify_cert = false
 
 # IPFS Gateway Backend (for static sites)
 [upstreams.ipfs]
 addrs = ["provider.europlots.com:32160"]
 connection_timeout = "30s"
+health_check_connection_timeout = "10s"
 
 # Secrets (Infisical) Backend
 [upstreams.secrets]
 addrs = ["v8c1fui9p1dah5m86ctithi5ok.ingress.europlots.com:443"]
 sni = "v8c1fui9p1dah5m86ctithi5ok.ingress.europlots.com"
 connection_timeout = "10s"
+health_check_connection_timeout = "10s"
+verify_cert = false
 
 # Route: Auth Service
 [locations.auth]
