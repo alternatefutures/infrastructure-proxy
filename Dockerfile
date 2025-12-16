@@ -20,3 +20,4 @@ EXPOSE 443 8080
 
 # Use static config entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
+# Force rebuild Mon Dec 15 19:12:59 PST 2025
