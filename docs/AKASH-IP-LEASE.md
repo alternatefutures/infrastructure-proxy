@@ -114,6 +114,60 @@ Key points:
 - Ensure Origin Certificate covers all domains
 - Check cert/key are correctly escaped in env vars
 
+## Host Header Rewriting
+
+**CRITICAL**: When proxying to Akash backends, you must rewrite the Host header.
+
+Akash provider nginx routes based on Host header. If you forward your custom domain Host to the backend, their nginx returns 404 because it doesn't recognize it.
+
+**Correct pingap.toml configuration:**
+```toml
+[locations.secrets]
+upstream = "secrets"
+host = "secrets.alternatefutures.ai"  # Match incoming requests
+path = "/"
+proxy_set_headers = [
+  "Host: v8c1fui9p1dah5m86ctithi5ok.ingress.europlots.com",  # Backend's expected Host
+  "X-Forwarded-Proto: https",
+  "X-Forwarded-Host: secrets.alternatefutures.ai",  # Original for app awareness
+  "X-Real-IP: $remote_addr"
+]
+```
+
+**Without Host rewrite:**
+```
+User → secrets.alternatefutures.ai → Pingap → Backend nginx
+                                              ↳ 404 (nginx doesn't recognize Host)
+```
+
+**With Host rewrite:**
+```
+User → secrets.alternatefutures.ai → Pingap (rewrites Host) → Backend nginx
+                                                              ↳ 200 (nginx routes correctly)
+```
+
+## Current Deployment
+
+| Field | Value |
+|-------|-------|
+| DSEQ | 24648263 |
+| Provider | akash1aaul837r7en7hpk9wv2svg8u78fdq0t2j2e82z |
+| Dedicated IP | **77.76.13.214** |
+| Port 443 | Direct to container |
+| Port 80 | Direct to container |
+
+## DNS Configuration
+
+Update Cloudflare A records to point to dedicated IP:
+
+```
+secrets.alternatefutures.ai  A  77.76.13.214  (proxied)
+auth.alternatefutures.ai     A  77.76.13.214  (proxied)
+api.alternatefutures.ai      A  77.76.13.214  (proxied)
+app.alternatefutures.ai      A  77.76.13.214  (proxied)
+docs.alternatefutures.ai     A  77.76.13.214  (proxied)
+```
+
 ## References
 
 - [Akash IP Leases Documentation](https://docs.akash.network/features/ip-leases)
