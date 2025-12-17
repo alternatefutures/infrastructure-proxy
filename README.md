@@ -6,11 +6,26 @@ High-performance SSL termination proxy with **dynamic routing** for AlternateFut
 
 | Field | Value |
 |-------|-------|
-| **DSEQ** | 24576255 |
-| **Provider** | Europlots (`akash162gym3szcy9d993gs3tyu0mg2ewcjacen9nwsu`) |
-| **Image (Static)** | `ghcr.io/alternatefutures/infrastructure-proxy-pingap:main` |
-| **Image (Dynamic)** | `ghcr.io/alternatefutures/infrastructure-proxy-pingap:etcd` |
+| **DSEQ** | 24673191 |
+| **Provider** | DigitalFrontier (`akash1aaul837r7en7hpk9wv2svg8u78fdq0t2j2e82z`) |
+| **Dedicated IP** | 77.76.13.214 |
+| **Image** | `ghcr.io/alternatefutures/infrastructure-proxy-pingap:3c34c45` |
 | **Status** | Running |
+
+### Architecture Decision: Secrets Service Isolation
+
+**Decision**: The secrets service (`secrets.alternatefutures.ai`) runs **outside** the proxy, connecting directly to its Akash deployment.
+
+**Rationale**: Infisical holds the secrets for all other services. Keeping it on an independent path provides better resilience - if the proxy has issues, you can still access Infisical to debug and retrieve credentials.
+
+| Service | Routing |
+|---------|---------|
+| `secrets.alternatefutures.ai` | Direct to Akash (CNAME + Cloudflare Transform Rule) |
+| `auth.alternatefutures.ai` | Through proxy (77.76.13.214) |
+| `api.alternatefutures.ai` | Through proxy (77.76.13.214) |
+| `app.alternatefutures.ai` | Through proxy (77.76.13.214) |
+| `docs.alternatefutures.ai` | Through proxy (77.76.13.214) |
+| `alternatefutures.ai` | Through proxy (77.76.13.214) |
 
 ## Overview
 
