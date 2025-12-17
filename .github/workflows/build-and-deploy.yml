@@ -29,7 +29,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}-pingap
+  # Always push to alternatefutures org - package must be public
+  IMAGE_NAME: alternatefutures/infrastructure-proxy-pingap
   # SDL file to use for deployment (with IP lease)
   SDL_FILE: deploy-akash-ip-lease.yaml
 

@@ -18,7 +18,7 @@ endpoints:
 
 services:
   ssl-proxy:
-    image: ghcr.io/wonderwomancode/infrastructure-proxy-pingap:main
+    image: ghcr.io/alternatefutures/infrastructure-proxy-pingap:main
     expose:
       # HTTPS - direct to our container via dedicated IP
       - port: 443

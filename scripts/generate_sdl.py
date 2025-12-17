@@ -19,20 +19,21 @@ def main():
     with open('deploy-akash-ip-lease.yaml', 'r') as f:
         content = f.read()
 
-    # Update the image tag
+    # Update the image tag (match either org name)
     content = re.sub(
-        r'image: ghcr\.io/wonderwomancode/infrastructure-proxy-pingap:\S+',
+        r'image: ghcr\.io/[^/]+/infrastructure-proxy-pingap:\S+',
         f'image: {image}',
         content
     )
 
     # Replace certificate placeholders
-    # Certs are pipe-delimited in secrets, convert to \n escape sequences
-    cert_escaped = cert.replace('|', '\\n')
-    key_escaped = key.replace('|', '\\n')
+    # Certs are stored as raw PEM in secrets (with newlines)
+    # Convert newlines to pipes for SDL (entrypoint.sh converts back with tr '|' '\n')
+    cert_piped = cert.replace('\n', '|').strip('|')
+    key_piped = key.replace('\n', '|').strip('|')
 
-    content = content.replace('<REPLACE_WITH_ORIGIN_CERT>', cert_escaped)
-    content = content.replace('<REPLACE_WITH_ORIGIN_KEY>', key_escaped)
+    content = content.replace('<REPLACE_WITH_ORIGIN_CERT>', cert_piped)
+    content = content.replace('<REPLACE_WITH_ORIGIN_KEY>', key_piped)
 
     # Write the modified SDL
     with open('deploy-with-tls.yaml', 'w') as f:
