@@ -11,11 +11,10 @@ work_stealing = true
 grace_period = "10s"
 pid_file = "/tmp/pingap.pid"
 
-# Certificate placeholder - will be replaced by entrypoint.sh with actual PEM content
-# The entrypoint generates the final config with inline certificates from env vars
+# Cloudflare Origin Certificate - files written by entrypoint.sh from env vars
 [certificates.alternatefutures]
-tls_cert = ""
-tls_key = ""
+tls_cert = "/etc/pingap/certs/origin.crt"
+tls_key = "/etc/pingap/certs/origin.key"
 is_default = true
 
 # Auth Service Backend

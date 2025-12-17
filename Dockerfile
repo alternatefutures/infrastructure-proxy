@@ -18,6 +18,6 @@ RUN chmod +x /entrypoint.sh && \
 # 8080 - Health check
 EXPOSE 443 8080
 
-# Use static config entrypoint
+# Use our entrypoint to inject certificates
 ENTRYPOINT ["/entrypoint.sh"]
-# Force rebuild Mon Dec 15 19:12:59 PST 2025
+# Force rebuild: Wed Dec 18 2025 - Fix certificate injection
