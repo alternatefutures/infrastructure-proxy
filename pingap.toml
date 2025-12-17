@@ -42,11 +42,9 @@ health_check_connection_timeout = "10s"
 
 # Secrets (Infisical) Backend
 [upstreams.secrets]
-addrs = ["v8c1fui9p1dah5m86ctithi5ok.ingress.europlots.com:443"]
-sni = "v8c1fui9p1dah5m86ctithi5ok.ingress.europlots.com"
+addrs = ["ddchr1pel5e0p8i0c46drjpclg.ingress.europlots.com:80"]
 connection_timeout = "10s"
 health_check_connection_timeout = "10s"
-verify_cert = false
 
 # Route: Auth Service
 [locations.auth]
@@ -91,7 +89,7 @@ proxy_set_headers = ["X-Forwarded-Proto: https", "X-Real-IP: $remote_addr"]
 upstream = "secrets"
 host = "secrets.alternatefutures.ai"
 path = "/"
-proxy_set_headers = ["Host: v8c1fui9p1dah5m86ctithi5ok.ingress.europlots.com", "X-Forwarded-Proto: https", "X-Forwarded-Host: secrets.alternatefutures.ai", "X-Real-IP: $remote_addr"]
+proxy_set_headers = ["Host: ddchr1pel5e0p8i0c46drjpclg.ingress.europlots.com", "X-Forwarded-Proto: https", "X-Forwarded-Host: secrets.alternatefutures.ai", "X-Real-IP: $remote_addr"]
 
 # Health check route
 [locations.health]
