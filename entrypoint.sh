@@ -26,9 +26,10 @@ if [ -z "$PINGAP_TLS_KEY" ]; then
     exit 1
 fi
 
-# Convert escaped newlines to actual PEM format
-CERT_PEM=$(printf '%b' "$PINGAP_TLS_CERT")
-KEY_PEM=$(printf '%b' "$PINGAP_TLS_KEY")
+# Convert pipe-separated cert to actual PEM format with newlines
+# Input format: "-----BEGIN CERTIFICATE-----|MIIDOz...|...|-----END CERTIFICATE-----"
+CERT_PEM=$(echo "$PINGAP_TLS_CERT" | tr '|' '\n')
+KEY_PEM=$(echo "$PINGAP_TLS_KEY" | tr '|' '\n')
 
 echo "Certificate first line: $(echo "$CERT_PEM" | head -1)"
 echo "Certificate last line: $(echo "$CERT_PEM" | tail -1)"
