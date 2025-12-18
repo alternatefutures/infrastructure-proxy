@@ -293,8 +293,7 @@ akash provider lease-logs --dseq $DSEQ --from $PROVIDER
 
 - **Bash**: Health checks, log queries, Akash CLI commands
 - **Grep/Read**: Log analysis, config inspection
-- **GitHub MCP**: Create issues for incidents, update runbooks
-- **Linear MCP**: Track observability improvements
+- **GitHub MCP**: Create issues for incidents, update runbooks, track observability improvements in Projects
 - **Akash MCP**: Monitor deployments, fetch logs, check lease status
 
 ## Invocation
