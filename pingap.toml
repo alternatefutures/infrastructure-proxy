@@ -17,10 +17,10 @@ tls_cert = "/etc/pingap/certs/origin.crt"
 tls_key = "/etc/pingap/certs/origin.key"
 is_default = true
 
-# Auth Service Backend
+# Auth Service Backend (Subangle provider - avoiding NAT hairpin with Europlots proxy)
 [upstreams.auth]
-addrs = ["ubsm31q4ol97b1pi5l06iognug.ingress.europlots.com:443"]
-sni = "ubsm31q4ol97b1pi5l06iognug.ingress.europlots.com"
+addrs = ["4a0optuectehd849put7g23mmc.ingress.gpu.subangle.com:443"]
+sni = "4a0optuectehd849put7g23mmc.ingress.gpu.subangle.com"
 connection_timeout = "10s"
 health_check_connection_timeout = "10s"
 verify_cert = false
@@ -54,7 +54,7 @@ health_check_connection_timeout = "10s"
 upstream = "auth"
 host = "auth.alternatefutures.ai"
 path = "/"
-proxy_set_headers = ["Host: ubsm31q4ol97b1pi5l06iognug.ingress.europlots.com", "X-Forwarded-Proto: https", "X-Forwarded-Host: auth.alternatefutures.ai", "X-Real-IP: $remote_addr"]
+proxy_set_headers = ["Host: 4a0optuectehd849put7g23mmc.ingress.gpu.subangle.com", "X-Forwarded-Proto: https", "X-Forwarded-Host: auth.alternatefutures.ai", "X-Real-IP: $remote_addr"]
 
 # Route: API Service
 [locations.api]
