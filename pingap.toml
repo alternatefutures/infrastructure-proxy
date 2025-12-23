@@ -34,10 +34,14 @@ health_check_connection_timeout = "10s"
 verify_cert = false
 
 # IPFS Gateway Backend (for static sites)
+# Using self-hosted AF gateway - provider.europlots.com:32160 not accessible from within Europlots network (NAT hairpin)
+# If ipfs.alternatefutures.ai is also on Europlots, this may need to route through Cloudflare or move to different provider
 [upstreams.ipfs]
-addrs = ["provider.europlots.com:32160"]
+addrs = ["ipfs.alternatefutures.ai:443"]
+sni = "ipfs.alternatefutures.ai"
 connection_timeout = "30s"
 health_check_connection_timeout = "10s"
+verify_cert = false
 
 # Secrets (Infisical) Backend
 [upstreams.secrets]
@@ -65,7 +69,7 @@ upstream = "ipfs"
 host = "alternatefutures.ai"
 path = "/"
 rewrite = "^(.*)$ /ipfs/QmU4VRKexpuA6RvYfXY9nUsgiHRMLDhxvZFi7ssGHn3aHj$1"
-proxy_set_headers = ["X-Forwarded-Proto: https", "X-Real-IP: $remote_addr"]
+proxy_set_headers = ["Host: ipfs.alternatefutures.ai", "X-Forwarded-Proto: https", "X-Real-IP: $remote_addr"]
 
 # Route: Documentation (IPFS-hosted docs)
 [locations.docs]
@@ -73,7 +77,7 @@ upstream = "ipfs"
 host = "docs.alternatefutures.ai"
 path = "/"
 rewrite = "^(.*)$ /ipfs/QmeQe1QuyiAiyCrJLASixPtH2VW6xQZxcpqCHJsUTtxfUR$1"
-proxy_set_headers = ["X-Forwarded-Proto: https", "X-Real-IP: $remote_addr"]
+proxy_set_headers = ["Host: ipfs.alternatefutures.ai", "X-Forwarded-Proto: https", "X-Real-IP: $remote_addr"]
 
 # Route: App Dashboard (IPFS-hosted web-app)
 [locations.app]
@@ -81,7 +85,7 @@ upstream = "ipfs"
 host = "app.alternatefutures.ai"
 path = "/"
 rewrite = "^(.*)$ /ipfs/QmU4VRKexpuA6RvYfXY9nUsgiHRMLDhxvZFi7ssGHn3aHj$1"
-proxy_set_headers = ["X-Forwarded-Proto: https", "X-Real-IP: $remote_addr"]
+proxy_set_headers = ["Host: ipfs.alternatefutures.ai", "X-Forwarded-Proto: https", "X-Real-IP: $remote_addr"]
 
 # Route: Secrets (Infisical)
 [locations.secrets]
