@@ -30,9 +30,10 @@
 # ============================================================================
 # CURRENT DEPLOYMENT
 # ============================================================================
-# dseq: 24645907
+# dseq: 25354545
 # Provider: Europlots (akash18ga02jzaq8cw52anyhzkwta5wygufgu6zsz6xc)
-# Ingress: v8c1fui9p1dah5m86ctithi5ok.ingress.europlots.com
+# Ingress: uvhirubqe1aa1att76elejdi3c.ingress.europlots.com
+# Updated: 2026-02-02 (Fixed SMTP_FROM_ADDRESS to use verified domain)
 # ============================================================================
 
 version: "2.0"
@@ -63,7 +64,7 @@ services:
       - SMTP_PORT=587
       - SMTP_USERNAME=resend
       - SMTP_PASSWORD=re_fz3LETaZ_2WJy7dEb6XhDBVJNd6bu8yx8
-      - SMTP_FROM_ADDRESS=noreply@alternatefutures.ai
+      - SMTP_FROM_ADDRESS=noreply@secrets.alternatefutures.ai
       - SMTP_FROM_NAME=AlternateFutures
     depends_on:
       - postgres
