@@ -13,12 +13,20 @@ Pingap-based SSL termination proxy for all AlternateFutures services running on 
 <!-- DEPLOYMENTS_START -->
 | Field | Value |
 |-------|-------|
-| **DSEQ** | 24750686 |
-| **Provider** | Europlots (`akash18ga02jzaq8cw52anyhzkwta5wygufgu6zsz6xc`) |
-| **Dedicated IP** | 62.3.50.133 |
+| **DSEQ** | **25312670** |
+| **Provider** | DigitalFrontier (`akash1aaul837r7en7hpk9wv2svg8u78fdq0t2j2e82z`) |
+| **Dedicated IP** | 77.76.13.213 |
 | **Image** | `ghcr.io/alternatefutures/infrastructure-proxy-pingap:main` |
 | **Status** | Active |
+| **Last Updated** | 2026-02-02 |
 <!-- DEPLOYMENTS_END -->
+
+## Previous Deployments (CLOSED - DO NOT USE)
+
+| DSEQ | Provider | IP | Status | Closed Date |
+|------|----------|----|----|-------------|
+| 24758214 | leet.haus | 170.75.255.101 | CLOSED | Before 2026-02-02 |
+| 24750686 | Europlots | 62.3.50.133 | CLOSED | Before 2026-02-02 |
 
 **Source of Truth**: Deployment info managed in `admin/infrastructure/deployments.ts`
 

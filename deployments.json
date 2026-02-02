@@ -1,0 +1,40 @@
+{
+  "deployments": [
+    {
+      "service": "infrastructure-proxy",
+      "dseq": "25312670",
+      "provider": "akash1aaul837r7en7hpk9wv2svg8u78fdq0t2j2e82z",
+      "providerName": "DigitalFrontier",
+      "owner": "akash1degudmhf24auhfnqtn99mkja3xt7clt9um77tn",
+      "dedicatedIP": "77.76.13.213",
+      "image": "ghcr.io/alternatefutures/infrastructure-proxy-pingap:main",
+      "status": "active",
+      "deployedAt": "2026-01-30T22:01:55Z",
+      "deployedBy": "github-actions",
+      "commitSha": "17ee834cd69f1e4634f3b4fc095ef8a3e99423b5",
+      "notes": "SSL termination proxy with IP lease"
+    }
+  ],
+  "history": [
+    {
+      "service": "infrastructure-proxy",
+      "dseq": "24758214",
+      "provider": "akash1f6gmtjpx4r8qda9nxjwq26fp5mcjyqmaq5m6j7",
+      "providerName": "leet.haus",
+      "dedicatedIP": "170.75.255.101",
+      "status": "closed",
+      "closedAt": "2026-01-30T00:00:00Z",
+      "closedReason": "Out of funds"
+    },
+    {
+      "service": "infrastructure-proxy",
+      "dseq": "24750686",
+      "provider": "akash18ga02jzaq8cw52anyhzkwta5wygufgu6zsz6xc",
+      "providerName": "Europlots",
+      "dedicatedIP": "62.3.50.133",
+      "status": "closed",
+      "closedAt": "2026-01-30T00:00:00Z",
+      "closedReason": "Out of funds"
+    }
+  ]
+}

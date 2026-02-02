@@ -1,0 +1,183 @@
+---
+# Akash SDL - Infisical Secrets Management with Automated Backups
+#
+# Self-hosted secrets management platform for AlternateFutures.
+# 4-container deployment: Infisical app + PostgreSQL + Redis + Backup
+#
+# URL: https://secrets.alternatefutures.ai
+#
+# Backup container runs pg_dump every 6 hours to /backups volume
+
+version: "2.0"
+
+services:
+  infisical:
+    image: infisical/infisical:latest
+    expose:
+      - port: 8080
+        as: 80
+        to:
+          - global: true
+    env:
+      - ENCRYPTION_KEY=15207507e5ad027ca50aaae6b15ae2f4
+      - AUTH_SECRET=GUAMpAp1007yEN7iiKhQtSrxoaaw0aEQQkfpg0dhuQ
+      - DB_CONNECTION_URI=postgres://infisical:fd88a9fe393bdddeed336a7f35289796@postgres:5432/infisical
+      - REDIS_URL=redis://redis:6379
+      - SITE_URL=https://secrets.alternatefutures.ai
+      - TELEMETRY_ENABLED=false
+      - SMTP_HOST=smtp.resend.com
+      - SMTP_PORT=587
+      - SMTP_USERNAME=resend
+      - SMTP_PASSWORD=re_fz3LETaZ_2WJy7dEb6XhDBVJNd6bu8yx8
+      - SMTP_FROM_ADDRESS=noreply@secrets.alternatefutures.ai
+      - SMTP_FROM_NAME=AlternateFutures
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres:15-alpine
+    expose:
+      - port: 5432
+        to:
+          - service: infisical
+          - service: backup
+    env:
+      - POSTGRES_USER=infisical
+      - POSTGRES_PASSWORD=fd88a9fe393bdddeed336a7f35289796
+      - POSTGRES_DB=infisical
+
+  redis:
+    image: redis:7-alpine
+    expose:
+      - port: 6379
+        to:
+          - service: infisical
+
+  backup:
+    image: postgres:15-alpine
+    expose:
+      - port: 8000
+        as: 8000
+        to:
+          - global: true
+    command:
+      - sh
+      - -c
+      - |
+        apk add --no-cache python3 py3-pip
+        pip3 install --break-system-packages http.server
+        mkdir -p /backups
+
+        # Create backup script
+        cat > /backup.sh << 'EOF'
+        #!/bin/sh
+        TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+        BACKUP_FILE="/backups/infisical_backup_$TIMESTAMP.sql"
+
+        echo "$(date): Starting backup..."
+        PGPASSWORD=fd88a9fe393bdddeed336a7f35289796 pg_dump \
+          -h postgres \
+          -U infisical \
+          -d infisical \
+          --no-owner \
+          --no-acl \
+          > "$BACKUP_FILE"
+
+        if [ $? -eq 0 ]; then
+          gzip "$BACKUP_FILE"
+          echo "$(date): Backup complete: ${BACKUP_FILE}.gz"
+
+          # Keep only last 10 backups
+          ls -t /backups/*.gz | tail -n +11 | xargs -r rm
+          echo "$(date): Cleaned old backups, keeping last 10"
+        else
+          echo "$(date): Backup failed!"
+        fi
+        EOF
+
+        chmod +x /backup.sh
+
+        # Run initial backup
+        /backup.sh
+
+        # Start cron-like backup loop (every 6 hours) in background
+        while true; do
+          sleep 21600  # 6 hours
+          /backup.sh
+        done &
+
+        # Start HTTP server to serve backups on port 8000
+        cd /backups
+        python3 -m http.server 8000
+    env:
+      - PGPASSWORD=fd88a9fe393bdddeed336a7f35289796
+
+profiles:
+  compute:
+    infisical:
+      resources:
+        cpu:
+          units: 1
+        memory:
+          size: 1Gi
+        storage:
+          size: 512Mi
+    postgres:
+      resources:
+        cpu:
+          units: 1
+        memory:
+          size: 1Gi
+        storage:
+          size: 10Gi
+    redis:
+      resources:
+        cpu:
+          units: 0.5
+        memory:
+          size: 256Mi
+        storage:
+          size: 512Mi
+    backup:
+      resources:
+        cpu:
+          units: 0.25
+        memory:
+          size: 256Mi
+        storage:
+          size: 5Gi  # Storage for backups
+
+  placement:
+    dcloud:
+      pricing:
+        infisical:
+          denom: uakt
+          amount: 20
+        postgres:
+          denom: uakt
+          amount: 25
+        redis:
+          denom: uakt
+          amount: 10
+        backup:
+          denom: uakt
+          amount: 15
+
+deployment:
+  infisical:
+    dcloud:
+      profile: infisical
+      count: 1
+  postgres:
+    dcloud:
+      profile: postgres
+      count: 1
+  redis:
+    dcloud:
+      profile: redis
+      count: 1
+  backup:
+    dcloud:
+      profile: backup
+      count: 1
