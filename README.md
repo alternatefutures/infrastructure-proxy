@@ -6,10 +6,10 @@ High-performance SSL termination proxy with **dynamic routing** for AlternateFut
 
 | Field | Value |
 |-------|-------|
-| **DSEQ** | 24673191 |
+| **DSEQ** | 25312670 |
 | **Provider** | DigitalFrontier (`akash1aaul837r7en7hpk9wv2svg8u78fdq0t2j2e82z`) |
-| **Dedicated IP** | 77.76.13.214 |
-| **Image** | `ghcr.io/alternatefutures/infrastructure-proxy-pingap:3c34c45` |
+| **Dedicated IP** | 77.76.13.213 |
+| **Image** | `ghcr.io/alternatefutures/infrastructure-proxy-pingap:main` |
 | **Status** | Running |
 
 ### Architecture Decision: Secrets Service Isolation
@@ -21,11 +21,11 @@ High-performance SSL termination proxy with **dynamic routing** for AlternateFut
 | Service | Routing |
 |---------|---------|
 | `secrets.alternatefutures.ai` | Direct to Akash (CNAME + Cloudflare Transform Rule) |
-| `auth.alternatefutures.ai` | Through proxy (77.76.13.214) |
-| `api.alternatefutures.ai` | Through proxy (77.76.13.214) |
-| `app.alternatefutures.ai` | Through proxy (77.76.13.214) |
-| `docs.alternatefutures.ai` | Through proxy (77.76.13.214) |
-| `alternatefutures.ai` | Through proxy (77.76.13.214) |
+| `auth.alternatefutures.ai` | Through proxy (77.76.13.213) |
+| `api.alternatefutures.ai` | Through proxy (77.76.13.213) |
+| `app.alternatefutures.ai` | Through proxy (77.76.13.213) |
+| `docs.alternatefutures.ai` | Through proxy (77.76.13.213) |
+| `alternatefutures.ai` | Through proxy (77.76.13.213) |
 
 ## Overview
 
@@ -258,7 +258,7 @@ echo | openssl s_client -connect auth.alternatefutures.ai:443 2>/dev/null | \
 
 Via Akash MCP:
 ```
-get-logs with dseq=24576255, provider=akash162gym3szcy9d993gs3tyu0mg2ewcjacen9nwsu
+get-logs with dseq=25312670, provider=akash1aaul837r7en7hpk9wv2svg8u78fdq0t2j2e82z
 ```
 
 ## Troubleshooting
