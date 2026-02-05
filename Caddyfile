@@ -15,7 +15,8 @@
     # acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
 
     # Admin API (internal)
-    admin 0.0.0.0:2019
+    # SECURITY: bind admin locally; do not expose publicly
+    admin 127.0.0.1:2019
 }
 
 # Main Website (IPFS-hosted)

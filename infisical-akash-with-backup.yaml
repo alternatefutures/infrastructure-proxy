@@ -19,16 +19,16 @@ services:
         to:
           - global: true
     env:
-      - ENCRYPTION_KEY=15207507e5ad027ca50aaae6b15ae2f4
-      - AUTH_SECRET=GUAMpAp1007yEN7iiKhQtSrxoaaw0aEQQkfpg0dhuQ
-      - DB_CONNECTION_URI=postgres://infisical:fd88a9fe393bdddeed336a7f35289796@postgres:5432/infisical
+      - ENCRYPTION_KEY=${INFISICAL_ENCRYPTION_KEY}
+      - AUTH_SECRET=${INFISICAL_AUTH_SECRET}
+      - DB_CONNECTION_URI=postgres://infisical:${INFISICAL_DB_PASSWORD}@postgres:5432/infisical
       - REDIS_URL=redis://redis:6379
       - SITE_URL=https://secrets.alternatefutures.ai
       - TELEMETRY_ENABLED=false
       - SMTP_HOST=smtp.resend.com
       - SMTP_PORT=587
       - SMTP_USERNAME=resend
-      - SMTP_PASSWORD=re_fz3LETaZ_2WJy7dEb6XhDBVJNd6bu8yx8
+      - SMTP_PASSWORD=${INFISICAL_SMTP_PASSWORD}
       - SMTP_FROM_ADDRESS=noreply@secrets.alternatefutures.ai
       - SMTP_FROM_NAME=AlternateFutures
     depends_on:
@@ -44,7 +44,7 @@ services:
           - service: backup
     env:
       - POSTGRES_USER=infisical
-      - POSTGRES_PASSWORD=fd88a9fe393bdddeed336a7f35289796
+      - POSTGRES_PASSWORD=${INFISICAL_DB_PASSWORD}
       - POSTGRES_DB=infisical
 
   redis:
@@ -56,11 +56,6 @@ services:
 
   backup:
     image: postgres:15-alpine
-    expose:
-      - port: 8000
-        as: 8000
-        to:
-          - global: true
     command:
       - sh
       - -c
@@ -76,7 +71,7 @@ services:
         BACKUP_FILE="/backups/infisical_backup_$TIMESTAMP.sql"
 
         echo "$(date): Starting backup..."
-        PGPASSWORD=fd88a9fe393bdddeed336a7f35289796 pg_dump \
+        PGPASSWORD=${INFISICAL_DB_PASSWORD} pg_dump \
           -h postgres \
           -U infisical \
           -d infisical \
@@ -106,12 +101,11 @@ services:
           sleep 21600  # 6 hours
           /backup.sh
         done &
-
-        # Start HTTP server to serve backups on port 8000
-        cd /backups
-        python3 -m http.server 8000
+        # Keep container running; backups happen in the background loop.
+        # IMPORTANT: Do NOT expose backups over a public HTTP server.
+        sleep infinity
     env:
-      - PGPASSWORD=fd88a9fe393bdddeed336a7f35289796
+      - PGPASSWORD=${INFISICAL_DB_PASSWORD}
 
 profiles:
   compute:

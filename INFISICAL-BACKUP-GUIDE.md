@@ -61,7 +61,7 @@ To restore a backup to a new Infisical deployment:
 gunzip infisical_backup_YYYYMMDD_HHMMSS.sql.gz
 
 # 2. Restore to postgres (use exec-command or direct access)
-PGPASSWORD=fd88a9fe393bdddeed336a7f35289796 psql \
+PGPASSWORD="<INFISICAL_DB_PASSWORD>" psql \
   -h <postgres-host> \
   -U infisical \
   -d infisical \
