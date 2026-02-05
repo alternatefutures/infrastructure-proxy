@@ -1,6 +1,11 @@
 /**
  * Cloudflare Worker: AlternateFutures Proxy Router
  *
+ * DEPRECATED (2026-02-06): Routing is now handled by the Pingap SSL proxy
+ * deployed on Akash (see ../pingap.toml and ../README.md). This worker is
+ * retained as a reference / fallback pattern but the ROUTES below are STALE
+ * and must be updated before reuse.
+ *
  * This Worker acts as a full reverse proxy, routing custom domains directly
  * to their Akash backend services. This bypasses the Akash HTTP ingress
  * Host header limitation entirely.
@@ -8,7 +13,7 @@
  * Flow:
  * 1. User → secrets.alternatefutures.ai
  * 2. Cloudflare → This Worker
- * 3. Worker → Directly to Europlots Infisical backend
+ * 3. Worker → Directly to backend on Akash
  *
  * Benefits:
  * - No Host header issues (Worker rewrites Host to match backend)
