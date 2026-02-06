@@ -5,9 +5,9 @@
 ## Active Deployments
 
 ### SSL Proxy (infrastructure-proxy)
-- **DSEQ:** `25312670`
-- **Provider:** DigitalFrontier (`akash1aaul837r7en7hpk9wv2svg8u78fdq0t2j2e82z`)
-- **Dedicated IP:** `77.76.13.213`
+- **DSEQ:** `25413561`
+- **Provider:** america.computer (`akash1zlsep362zz46qlwzttm06t8lv9qtg8gtaya97u`)
+- **Dedicated IP:** `198.12.74.90`
 - **Image:** `ghcr.io/alternatefutures/infrastructure-proxy-pingap:main`
 - **Status:** Running
 - **Domains Routed:** auth, api, app, docs.alternatefutures.ai
@@ -35,6 +35,7 @@
 ### Proxy Deployments
 | DSEQ | Provider | IP | Closed Date | Notes |
 |------|----------|----|----|-------|
+| 25312670 | DigitalFrontier | 77.76.13.213 | 2026-02-06 | Replaced by 25413561 |
 | 24758214 | leet.haus | 170.75.255.101 | ~2026-01 | Out of funds |
 | 24750686 | Europlots | 62.3.50.133 | ~2026-01 | Out of funds |
 
@@ -54,6 +55,6 @@
 
 ## Quick Reference
 
-**SSL Proxy:** 77.76.13.213 (DSEQ 25312670)
+**SSL Proxy:** 198.12.74.90 (DSEQ 25413561)
 **Infisical Direct:** http://uvhirubqe1aa1att76elejdi3c.ingress.europlots.com
 **Infisical Public:** https://secrets.alternatefutures.ai
