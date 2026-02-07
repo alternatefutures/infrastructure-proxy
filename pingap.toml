@@ -26,9 +26,9 @@ addrs = ["o965f4gl25bip8ra8m1cuacij4.ingress.akash.tagus.host:80"]
 connection_timeout = "10s"
 health_check_connection_timeout = "10s"
 
-# API Service Backend (DSEQ 25423196 on lem0n.cc)
+# API Service Backend (DSEQ 25424305 on cap-test-compute.com)
 [upstreams.api]
-addrs = ["q5v7qcb9gldn9fa532nfhiln14.ingress.akash.lem0n.cc:80"]
+addrs = ["v05pq98qm5a6faj4g0sse1hp4o.ingress.cap-test-compute.com:80"]
 connection_timeout = "10s"
 health_check_connection_timeout = "10s"
 
@@ -51,7 +51,7 @@ proxy_set_headers = ["Host: o965f4gl25bip8ra8m1cuacij4.ingress.akash.tagus.host"
 upstream = "api"
 host = "api.alternatefutures.ai"
 path = "/"
-proxy_set_headers = ["Host: q5v7qcb9gldn9fa532nfhiln14.ingress.akash.lem0n.cc", "X-Forwarded-Proto: https", "X-Forwarded-Host: api.alternatefutures.ai", "X-Real-IP: $remote_addr"]
+proxy_set_headers = ["Host: v05pq98qm5a6faj4g0sse1hp4o.ingress.cap-test-compute.com", "X-Forwarded-Proto: https", "X-Forwarded-Host: api.alternatefutures.ai", "X-Real-IP: $remote_addr"]
 
 # Health check route
 [locations.health]
