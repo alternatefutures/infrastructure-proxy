@@ -4,13 +4,10 @@ High-performance SSL termination proxy with **dynamic routing** for AlternateFut
 
 ## Current Deployment
 
-| Field | Value |
-|-------|-------|
-| **DSEQ** | 25312670 |
-| **Provider** | DigitalFrontier (`akash1aaul837r7en7hpk9wv2svg8u78fdq0t2j2e82z`) |
-| **Dedicated IP** | 77.76.13.213 |
-| **Image** | `ghcr.io/alternatefutures/infrastructure-proxy-pingap:main` |
-| **Status** | Running |
+Do not hardcode DSEQs/providers/IPs in this README (they drift).
+
+**Source of truth for current production:** repo root `DEPLOYMENTS.md` / `.github/DEPLOYMENTS.md`  
+**Proxy-only registry:** `infrastructure-proxy/deployments.json`
 
 ### Architecture Decision: Secrets Service Isolation
 
@@ -20,12 +17,12 @@ High-performance SSL termination proxy with **dynamic routing** for AlternateFut
 
 | Service | Routing |
 |---------|---------|
-| `secrets.alternatefutures.ai` | Direct to Akash (CNAME + Cloudflare Transform Rule) |
-| `auth.alternatefutures.ai` | Through proxy (77.76.13.213) |
-| `api.alternatefutures.ai` | Through proxy (77.76.13.213) |
-| `app.alternatefutures.ai` | Through proxy (77.76.13.213) |
-| `docs.alternatefutures.ai` | Through proxy (77.76.13.213) |
-| `alternatefutures.ai` | Through proxy (77.76.13.213) |
+| `secrets.alternatefutures.ai` | Direct to Akash (recommended if Infisical is used) |
+| `auth.alternatefutures.ai` | Through proxy (see repo-root deployment tracker for current IP) |
+| `api.alternatefutures.ai` | Through proxy (see repo-root deployment tracker for current IP) |
+| `app.alternatefutures.ai` | Through proxy (see repo-root deployment tracker for current IP) |
+| `docs.alternatefutures.ai` | Through proxy (see repo-root deployment tracker for current IP) |
+| `alternatefutures.ai` | Through proxy (see repo-root deployment tracker for current IP) |
 
 ## Overview
 
@@ -258,7 +255,7 @@ echo | openssl s_client -connect auth.alternatefutures.ai:443 2>/dev/null | \
 
 Via Akash MCP:
 ```
-get-logs with dseq=25312670, provider=akash1aaul837r7en7hpk9wv2svg8u78fdq0t2j2e82z
+get-logs with dseq=<DSEQ>, provider=<PROVIDER>   # see repo-root `.github/DEPLOYMENTS.md`
 ```
 
 ## Troubleshooting

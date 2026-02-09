@@ -28,20 +28,14 @@
 #   3. Close old deployment to stop billing
 #
 # ============================================================================
-# CURRENT INFISICAL DEPLOYMENT (Active as of 2026-02-02)
-# ============================================================================
-# dseq: 25354545
-# Provider: Europlots (akash18ga02jzaq8cw52anyhzkwta5wygufgu6zsz6xc)
-# Ingress: uvhirubqe1aa1att76elejdi3c.ingress.europlots.com
-# Direct URL: http://uvhirubqe1aa1att76elejdi3c.ingress.europlots.com
-# Public URL: https://secrets.alternatefutures.ai (via proxy)
-# Updated: 2026-02-02 (Fixed SMTP_FROM_ADDRESS to noreply@secrets.alternatefutures.ai)
-# Status: ✅ ACTIVE - SMTP working, emails sending successfully
-# ============================================================================
+# NOTE (avoid drift):
+# This file is an SDL TEMPLATE only. Do NOT hardcode or commit DSEQ/provider/IP
+# “current deployment state” here.
 #
-# PREVIOUS DEPLOYMENTS (CLOSED):
-# - 25312419 (Europlots) - Closed 2026-02-02 - Old SMTP config
-# - 24645907 (Europlots) - Closed earlier
+# Source of truth for what is live:
+# - repo root `DEPLOYMENTS.md` / `.github/DEPLOYMENTS.md`
+#
+# Infisical deployment lives under `service-secrets/` in this monorepo.
 # ============================================================================
 
 version: "2.0"

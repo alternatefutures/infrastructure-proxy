@@ -2,20 +2,38 @@
   "deployments": [
     {
       "service": "infrastructure-proxy",
+      "dseq": "25423216",
+      "provider": "akash1zlsep362zz46qlwzttm06t8lv9qtg8gtaya97u",
+      "providerName": "america.computer",
+      "owner": "akash1degudmhf24auhfnqtn99mkja3xt7clt9um77tn",
+      "dedicatedIP": "198.12.74.90",
+      "ingress": null,
+      "image": "ghcr.io/alternatefutures/infrastructure-proxy-pingap:main",
+      "status": "active",
+      "deployedAt": "2026-02-07T00:00:00Z",
+      "deployedBy": "redeploy-all.ts",
+      "commitSha": null,
+      "notes": "SSL termination proxy with IP lease"
+    }
+  ],
+  "history": [
+    {
+      "service": "infrastructure-proxy",
       "dseq": "25312670",
       "provider": "akash1aaul837r7en7hpk9wv2svg8u78fdq0t2j2e82z",
       "providerName": "DigitalFrontier",
       "owner": "akash1degudmhf24auhfnqtn99mkja3xt7clt9um77tn",
       "dedicatedIP": "77.76.13.213",
+      "ingress": null,
       "image": "ghcr.io/alternatefutures/infrastructure-proxy-pingap:main",
-      "status": "active",
+      "status": "closed",
       "deployedAt": "2026-01-30T22:01:55Z",
       "deployedBy": "github-actions",
       "commitSha": "17ee834cd69f1e4634f3b4fc095ef8a3e99423b5",
-      "notes": "SSL termination proxy with IP lease"
-    }
-  ],
-  "history": [
+      "notes": "SSL termination proxy with IP lease",
+      "closedAt": "2026-02-07T00:00:00Z",
+      "closedReason": "Replaced by new deployment"
+    },
     {
       "service": "infrastructure-proxy",
       "dseq": "24758214",
