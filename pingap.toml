@@ -22,13 +22,13 @@ is_default = true
 
 # Auth Service Backend (DSEQ 25455624 on tagus.host)
 [upstreams.auth]
-addrs = ["gma7pvboud9mr4teqh91q8dee0.ingress.akash.tagus.host:80"]
+addrs = ["glngh80egdbpp3nipark7ftuno.ingress.akash.tagus.host:80"]
 connection_timeout = "10s"
 health_check_connection_timeout = "10s"
 
 # API Service Backend (DSEQ 25455635 on cap-test-compute.com)
 [upstreams.api]
-addrs = ["r4cduk55slfn72pjfct3lsu5a0.ingress.cap-test-compute.com:80"]
+addrs = ["5c1gujgal5ecl5kcf5d4evrlp8.ingress.cap-test-compute.com:80"]
 connection_timeout = "10s"
 health_check_connection_timeout = "10s"
 
@@ -44,14 +44,14 @@ health_check_connection_timeout = "10s"
 upstream = "auth"
 host = "auth.alternatefutures.ai"
 path = "/"
-proxy_set_headers = ["Host: auth.alternatefutures.ai", "X-Forwarded-Proto: https", "X-Forwarded-Host: auth.alternatefutures.ai", "X-Real-IP: $remote_addr"]
+proxy_set_headers = ["Host: glngh80egdbpp3nipark7ftuno.ingress.akash.tagus.host", "X-Forwarded-Proto: https", "X-Forwarded-Host: auth.alternatefutures.ai", "X-Real-IP: $remote_addr"]
 
 # Route: API Service
 [locations.api]
 upstream = "api"
 host = "api.alternatefutures.ai"
 path = "/"
-proxy_set_headers = ["Host: api.alternatefutures.ai", "X-Forwarded-Proto: https", "X-Forwarded-Host: api.alternatefutures.ai", "X-Real-IP: $remote_addr"]
+proxy_set_headers = ["Host: 5c1gujgal5ecl5kcf5d4evrlp8.ingress.cap-test-compute.com", "X-Forwarded-Proto: https", "X-Forwarded-Host: api.alternatefutures.ai", "X-Real-IP: $remote_addr"]
 
 # Health check route
 [locations.health]
