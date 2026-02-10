@@ -6,7 +6,7 @@ High-performance SSL termination proxy with **dynamic routing** for AlternateFut
 
 Do not hardcode DSEQs/providers/IPs in this README (they drift).
 
-**Source of truth for current production:** repo root `DEPLOYMENTS.md` / `.github/DEPLOYMENTS.md`  
+**Source of truth for current production:** repo root `DEPLOYMENTS.md`  
 **Proxy-only registry:** `infrastructure-proxy/deployments.json`
 
 ### Architecture Decision: Secrets Service Isolation
@@ -255,7 +255,7 @@ echo | openssl s_client -connect auth.alternatefutures.ai:443 2>/dev/null | \
 
 Via Akash MCP:
 ```
-get-logs with dseq=<DSEQ>, provider=<PROVIDER>   # see repo-root `.github/DEPLOYMENTS.md`
+get-logs with dseq=<DSEQ>, provider=<PROVIDER>   # see repo-root `DEPLOYMENTS.md`
 ```
 
 ## Troubleshooting

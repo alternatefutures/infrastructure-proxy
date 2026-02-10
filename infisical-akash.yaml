@@ -33,7 +33,7 @@
 # “current deployment state” here.
 #
 # Source of truth for what is live:
-# - repo root `DEPLOYMENTS.md` / `.github/DEPLOYMENTS.md`
+# - repo root `DEPLOYMENTS.md`
 #
 # Infisical deployment lives under `service-secrets/` in this monorepo.
 # ============================================================================

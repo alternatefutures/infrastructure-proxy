@@ -4,7 +4,7 @@ This file exists to keep automation/models aligned when working on the SSL termi
 
 ## Source of truth (avoid drift)
 
-- **Current production deployment state** (DSEQ, provider, dedicated IP): repo root `.github/DEPLOYMENTS.md`
+- **Current production deployment state** (DSEQ, provider, dedicated IP): repo root `DEPLOYMENTS.md`
 - **Proxy-only deployment registry** (machine-readable): `infrastructure-proxy/deployments.json`
 
 Do **not** hardcode DSEQs/providers/IPs into docs/scripts unless they are generated from the registries above.

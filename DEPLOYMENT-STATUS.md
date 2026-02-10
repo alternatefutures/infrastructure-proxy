@@ -5,7 +5,6 @@ This file previously duplicated “what’s live” deployment state and drifted
 ## Source of truth (current production state)
 
 - `DEPLOYMENTS.md` (repo root)
-- `.github/DEPLOYMENTS.md` (repo root)
 
 Those files are what other tooling/scripts should reference for **current** DSEQs, providers, and endpoints.
 
