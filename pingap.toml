@@ -26,9 +26,9 @@ addrs = ["cu1bgrml3lcg75r6fd95k67974.ingress.akash.tagus.host:80"]
 connection_timeout = "10s"
 health_check_connection_timeout = "10s"
 
-# API Service Backend (DSEQ 25480196 — TCP forwarded port)
+# API Service Backend (DSEQ 25481483 on gpu.subangle.com)
 [upstreams.api]
-addrs = ["provider.zanthem.cloud:32222"]
+addrs = ["gg1l8j6pdheqb2d6mpf1he67r0.ingress.gpu.subangle.com:80"]
 connection_timeout = "10s"
 health_check_connection_timeout = "10s"
 
@@ -57,7 +57,7 @@ proxy_set_headers = ["Host: cu1bgrml3lcg75r6fd95k67974.ingress.akash.tagus.host"
 upstream = "api"
 host = "api.alternatefutures.ai"
 path = "/"
-proxy_set_headers = ["Host: provider.zanthem.cloud:32222", "X-Forwarded-Proto: https", "X-Forwarded-Host: api.alternatefutures.ai", "X-Real-IP: $remote_addr"]
+proxy_set_headers = ["Host: gg1l8j6pdheqb2d6mpf1he67r0.ingress.gpu.subangle.com", "X-Forwarded-Proto: https", "X-Forwarded-Host: api.alternatefutures.ai", "X-Real-IP: $remote_addr"]
 
 # Health check route
 [locations.health]
