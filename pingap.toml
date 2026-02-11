@@ -26,9 +26,15 @@ addrs = ["cu1bgrml3lcg75r6fd95k67974.ingress.akash.tagus.host:80"]
 connection_timeout = "10s"
 health_check_connection_timeout = "10s"
 
-# API Service Backend (DSEQ 25455635 on cap-test-compute.com)
+# API Service Backend (DSEQ 25480196 — TCP forwarded port)
 [upstreams.api]
-addrs = ["7r50s9mam596j6ma9aebb34ofs.ingress.dal.leet.haus:80"]
+addrs = ["provider.zanthem.cloud:32222"]
+connection_timeout = "10s"
+health_check_connection_timeout = "10s"
+
+["7r50s9mam596j6ma9aebb34ofs.ingress.dal.leet.haus:443"]
+sni = "7r50s9mam596j6ma9aebb34ofs.ingress.dal.leet.haus"
+verify_cert = false
 connection_timeout = "10s"
 health_check_connection_timeout = "10s"
 
@@ -51,7 +57,7 @@ proxy_set_headers = ["Host: cu1bgrml3lcg75r6fd95k67974.ingress.akash.tagus.host"
 upstream = "api"
 host = "api.alternatefutures.ai"
 path = "/"
-proxy_set_headers = ["Host: 7r50s9mam596j6ma9aebb34ofs.ingress.dal.leet.haus", "X-Forwarded-Proto: https", "X-Forwarded-Host: api.alternatefutures.ai", "X-Real-IP: $remote_addr"]
+proxy_set_headers = ["Host: provider.zanthem.cloud:32222", "X-Forwarded-Proto: https", "X-Forwarded-Host: api.alternatefutures.ai", "X-Real-IP: $remote_addr"]
 
 # Health check route
 [locations.health]
